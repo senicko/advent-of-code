@@ -9,7 +9,7 @@ import (
 )
 
 func main() {
-	file, err := os.Open("./in.txt")
+	file, err := os.Open("../in.txt")
 	if err != nil {
 		panic(err)
 	}
@@ -17,8 +17,8 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 
-	horizontal := 0
-	depth := 0
+	var horizontal int
+	var depth int
 
 	for scanner.Scan() {
 		row := strings.Split(scanner.Text(), " ")

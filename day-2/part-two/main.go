@@ -17,9 +17,9 @@ func main() {
 
 	scanner := bufio.NewScanner(file)
 
-	horizontal := 0
-	depth := 0
-	aim := 0
+	var horizontal int
+	var depth int
+	var aim int
 
 	for scanner.Scan() {
 		row := strings.Split(scanner.Text(), " ")
