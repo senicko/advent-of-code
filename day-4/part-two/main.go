@@ -12,6 +12,7 @@ var (
 	numbers []int
 	boards  [][5][5]int
 	marked  [][5][5]bool
+	won     []bool
 	scanner *bufio.Scanner
 )
 
@@ -37,13 +38,6 @@ func loadBoards() {
 	for scanner.Scan() {
 		line := scanner.Text()
 
-		if line == "" {
-			row = 0
-			boards = append(boards, board)
-			marked = append(marked, [5][5]bool{})
-			continue
-		}
-
 		for i := 0; i < len(line); i += 3 {
 			number, err := strconv.Atoi(strings.TrimLeft(string(line[i])+string(line[i+1]), " "))
 			if err != nil {
@@ -53,13 +47,19 @@ func loadBoards() {
 		}
 
 		row++
-	}
 
-	boards = append(boards, board)
-	marked = append(marked, [5][5]bool{})
+		if row == 5 {
+			boards = append(boards, board)
+			marked = append(marked, [5][5]bool{})
+			won = append(won, false)
+
+			scanner.Scan()
+			row = 0
+		}
+	}
 }
 
-func simulate() (int, error) {
+func simulate() int {
 	for _, number := range numbers {
 		for i := 0; i < len(boards); i++ {
 			var unmarkedSum int
@@ -89,14 +89,25 @@ func simulate() (int, error) {
 				}
 
 				if winX || winY {
-					return unmarkedSum * number, nil
+					won[i] = true
+
+					all := true
+					for _, w := range won {
+						if !w {
+							all = false
+						}
+					}
+
+					if all {
+						return unmarkedSum * number
+					}
 				}
 			}
 
 		}
 	}
 
-	return 0, nil
+	return 0
 }
 
 func main() {
@@ -111,10 +122,6 @@ func main() {
 	loadNumbers()
 	loadBoards()
 
-	result, err := simulate()
-	if err != nil {
-		panic(err)
-	}
-
+	result := simulate()
 	fmt.Println(result)
 }
