@@ -25,6 +25,7 @@ func main() {
 			for _, u := range unique {
 				if len(digit) == u {
 					count++
+					break
 				}
 			}
 		}
@@ -32,5 +33,3 @@ func main() {
 
 	fmt.Println(count)
 }
-
-// 2, 4, 3, 7
