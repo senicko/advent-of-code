@@ -14,13 +14,13 @@ func main() {
 	}
 	defer file.Close()
 
-	reader := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(file)
 
 	var count int
 	unique := [4]int{2, 4, 3, 7}
 
-	for reader.Scan() {
-		observation := strings.Split(reader.Text(), " | ")
+	for scanner.Scan() {
+		observation := strings.Split(scanner.Text(), " | ")
 		for _, digit := range strings.Split(observation[1], " ") {
 			for _, u := range unique {
 				if len(digit) == u {

@@ -57,7 +57,7 @@ func main() {
 	}
 	defer file.Close()
 
-	reader := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(file)
 
 	unique := []int{2, 3, 4, 7}
 	mappings := map[int][]int{
@@ -75,10 +75,10 @@ func main() {
 
 	var answer int
 
-	for reader.Scan() {
+	for scanner.Scan() {
 		var patterns, outputs []string
 		digits := make([]uint8, 7)
-		note := strings.Split(reader.Text(), " | ")
+		note := strings.Split(scanner.Text(), " | ")
 
 		for _, pattern := range strings.Split(note[0], " ") {
 			patterns = append(patterns, pattern)
